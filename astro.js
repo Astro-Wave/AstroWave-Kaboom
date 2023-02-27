@@ -1,7 +1,7 @@
 kaboom()
 
-loadSprite("astronut", "image2/pixilart-drawing (1).png")
-loadSprite("background", "image2/Astro-Background.png")
+loadSprite("astronut", "image/pixilart-drawing (1).png")
+loadSprite("background", "image/Astro-Background.png")
 // loadSound("score", "/sounds/score.mp3")
 // loadSound("wooosh", "/sounds/wooosh.mp3")
 // loadSound("hit", "/sounds/hit.mp3")
