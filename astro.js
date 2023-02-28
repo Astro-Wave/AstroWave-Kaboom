@@ -164,17 +164,22 @@ kaboom();
 loadSprite("birdy", "image/astronaut.png");
 loadSprite("bg", "image/Astro-Background.png");
 loadSprite("pipe", "image/newPipe.png");
+
 // loadSound("wooosh", "sounds/wooosh.mp3");
 
 let highScore = 0;
 
 scene("start", () => {
+
+  add([
+    sprite("bg", {width: width(), height: height()})
+  ]);
+
 	add([
         text("Press space to start"),
     ]);
 	onKeyPress("space", () => go("game"));
 })
-
 
 scene("game", () => {
 	character.style.display = "none";
