@@ -139,27 +139,24 @@
 // 		origin("center"),
 // 	])
 
-//   add([
-//     sprite("background", {width: width(), height: height()})
-//   ]);
 
 // 	// display score
 // 	add([
+  
+  // 		text(score),
+  // 		pos(width() / 2, height() / 2 + 108),
+  // 		scale(3),
+  // 		origin("center"),
+  // 	])
+  
+  // 	// go back to game with space is pressed
+  // 	onKeyPress("space", () => go("game"))
+  // 	onClick(() => go("game"))
+  
+  // })
 
-// 		text(score),
-// 		pos(width() / 2, height() / 2 + 108),
-// 		scale(3),
-// 		origin("center"),
-// 	])
-
-// 	// go back to game with space is pressed
-// 	onKeyPress("space", () => go("game"))
-// 	onClick(() => go("game"))
-
-// })
-
-// go("game")
-
+  // go("game")
+  
 
 kaboom();
 
@@ -174,11 +171,11 @@ let highScore = 0;
 scene("game", () => {
   const PIPE_GAP = 200;
   let score = 0;
-
+  
   add([
     sprite("bg", {width: width(), height: height()})
   ]);
-
+  
   const scoreText = add([
     text(score, {size: 50})
   ]);
@@ -192,7 +189,7 @@ scene("game", () => {
     area(),
     body(),
   ]);
-
+  
   function producePipes(){
     const offset = rand(-100, 100);
 
@@ -202,9 +199,9 @@ scene("game", () => {
       "pipe",
       area(),
       {passed: false},
-	  scale(0.3, 0.5)
+      scale(0.3, 0.5)
     ]);
-
+    
     add([
       sprite("pipe", {flipY: true}),
       pos(width(), height()/2 + offset - PIPE_GAP/2),
@@ -214,7 +211,7 @@ scene("game", () => {
 	  scale(0.3, 0.5)
     ]);
   }
-
+  
   loop(1.5, () => {
     producePipes();
   });
@@ -228,17 +225,17 @@ scene("game", () => {
       scoreText.text = score;
     }
   });
-
+  
   player.collides("pipe", () => {
     go("gameover", score);
   });
-
+  
   player.action(() => {
     if (player.pos.y > height() + 30 || player.pos.y < -30) {
       go("gameover", score);
     }
   });
-
+  
   keyPress("space", () => {
     // play("wooosh");
     player.jump(400);
@@ -249,18 +246,24 @@ scene("gameover", (score) => {
   if (score > highScore) {
     highScore = score;
   }
-
   add([
+    sprite("bg", {width: width(), height: height()})
+  ]);
+
+  
+  add([
+    // sprite("bg", {width: width(), height: height()})
     text(
       "gameover!\n"
       + "score: " + score
       + "\nhigh score: " + highScore,
       {size: 45}
-    )
-  ]);
-
-  keyPress("space", () => {
-    go("game");
+      )
+    ]);
+    
+     
+    keyPress("space", () => {
+      go("game");
   });
 });
 
