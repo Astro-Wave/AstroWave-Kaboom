@@ -168,7 +168,16 @@ loadSprite("pipe", "image/newPipe.png");
 
 let highScore = 0;
 
+scene("start", () => {
+	add([
+        text("Press space to start"),
+    ]);
+	onKeyPress("space", () => go("game"));
+})
+
+
 scene("game", () => {
+	character.style.display = "none";
   const PIPE_GAP = 200;
   let score = 0;
   
@@ -177,7 +186,7 @@ scene("game", () => {
   ]);
   
   const scoreText = add([
-    text(score, {size: 50})
+    text(`Score: ${score}`, {size: 50})
   ]);
 
   // add a game object to screen
@@ -222,7 +231,7 @@ scene("game", () => {
     if (pipe.passed === false && pipe.pos.x < player.pos.x) {
       pipe.passed = true;
       score += 1;
-      scoreText.text = score;
+      scoreText.text = `Score: ${score}`;
     }
   });
   
@@ -267,4 +276,4 @@ scene("gameover", (score) => {
   });
 });
 
-go("game");
+go("start"); 
