@@ -6,7 +6,9 @@ loadSprite("bg", "image/Astro-Background.png");
 loadSprite("pipe", "image/newPipe.png");
 loadSprite("endGame", "image/game_end_page(2).jpeg");
 loadSound("wooosh", "sound/wooosh.mp3");
-loadSound("bgm", "sound/background-music.mp3")
+loadSound("bgm", "sound/background-music.mp3", () => {
+	play("bgm", { loop: true, volume: 0.5});
+  });
 loadSound("cry", "sound/cry.mp3")
 
 const music = play("bgm", { loop: true, volume: 0.5})
@@ -187,15 +189,6 @@ scene("gameover", (score) => {
     origin("left"),
     area(),
   ]);
-  
-  const endText = add([
-    text("Game Over\n" + 
-    "Score: " + score + 
-    "\nHigh Score: " + highScore),
-    pos(width()-20, height()/2),
-    origin("right"),
-    area(),
-  ]);
 
   onKeyPress("space", () => go("game"));
 
@@ -214,6 +207,15 @@ scene("gameover", (score) => {
   keyPress("h", () => {
     go("hard");
   });
+
+  const endText = add([
+    text("Game Over\n" + 
+    "Score: " + score + 
+    "\nHigh Score: " + highScore),
+    pos(width()-20, height()/2),
+    origin("right"),
+    area(),
+  ]);
 });
 
 go("start");
