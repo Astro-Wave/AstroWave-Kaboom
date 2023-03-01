@@ -5,11 +5,11 @@ loadSprite("birdy", "image/astronaut.png");
 loadSprite("bg", "image/Astro-Background.png");
 loadSprite("pipe", "image/newPipe.png");
 loadSprite("endGame", "image/game_end_page(2).jpeg");
-// loadSound("wooosh", "sound/wooosh.mp3");
-// loadSound("bgm", "sound/background-music.mp3")
-// loadSound("cry", "sound/cry.mp3")
+loadSound("wooosh", "sound/wooosh.mp3");
+loadSound("bgm", "sound/background-music.mp3")
+loadSound("cry", "sound/cry.mp3")
 
-// const music = play("bgm", { loop: true, volume: 0.5})
+const music = play("bgm", { loop: true, volume: 0.5})
 
 let highScore = 0;
 let jump = 400;
@@ -153,7 +153,7 @@ scene("game", () => {
   });
 
   player.collides("pipe", () => {
-    // play("cry")
+    play("cry")
     go("gameover", score);
   });
 
@@ -164,7 +164,7 @@ scene("game", () => {
   });
 
   keyPress("space", () => {
-    // play("wooosh");
+    play("wooosh");
     player.jump(jump);
   });
 });
