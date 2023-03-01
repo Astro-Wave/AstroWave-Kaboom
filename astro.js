@@ -1,42 +1,39 @@
 kaboom();
 
-// load assets
 loadSprite("birdy", "image/astronaut.png");
 loadSprite("bg", "image/Astro-Background.png");
 loadSprite("pipe", "image/newPipe.png");
 loadSprite("endGame", "image/game_end_page(2).jpeg");
 loadSound("wooosh", "sound/wooosh.mp3");
-loadSound("bgm", "sound/background-music.mp3"); // , () => {
-// 	play("bgm", { loop: true, volume: 0.5});
-//   });
+loadSound("bgm", "sound/background-music.mp3");
 loadSound("cry", "sound/cry.mp3");
 
 const music = play("bgm", { loop: true, volume: 0.5 });
 
 let highScore = 0;
 let jump = 400;
-let PIPE_GAP = 200;
+let pipeGap = 200;
 
 scene("easy", () => {
   jump = 400;
-  PIPE_GAP = 200;
+  pipeGap = 200;
   go("game");
 });
 
 scene("medium", () => {
   jump = 350;
-  PIPE_GAP = 150;
+  pipeGap = 150;
   go("game");
 });
 
 scene("hard", () => {
   jump = 250;
-  PIPE_GAP = 120;
+  pipeGap = 120;
   go("game");
 });
 
 scene("start", () => {
-  const bg = add([
+  add([
     sprite("bg"),
     { width: width(), height: height() },
     pos(width() / 2, height() / 2),
@@ -44,7 +41,7 @@ scene("start", () => {
     scale(1),
     fixed(),
   ]);
-  const pad = 24;
+
   add([
     text("[AstroWave].pink.wavy", {
       width: width(),
@@ -69,7 +66,7 @@ scene("start", () => {
     area(),
   ]);
 
-  const spaceJump = add([
+  add([
     text("Press Space to Jump", 
 	{size: 50}),
 	color(59,153,229),
@@ -99,7 +96,7 @@ scene("game", () => {
   const player = add([
     sprite("birdy"),
     scale(2),
-    pos(200, 200),
+    pos(width() / 4, height() / 2),
     area(),
     body(),
   ]);
@@ -109,7 +106,7 @@ scene("game", () => {
 
     add([
       sprite("pipe"),
-      pos(width(), height() / 2 + offset + PIPE_GAP / 2),
+      pos(width(), height() / 2 + offset + pipeGap / 2),
       "pipe",
       area(),
       { passed: false },
@@ -118,7 +115,7 @@ scene("game", () => {
 
     add([
       sprite("pipe", { flipY: true }),
-      pos(width(), height() / 2 + offset - PIPE_GAP / 2),
+      pos(width(), height() / 2 + offset - pipeGap / 2),
       origin("botleft"),
       "pipe",
       area(),
@@ -169,9 +166,9 @@ scene("gameover", (score) => {
     fixed(),
   ]);
 
-  const modeText = add([
-    text("E: Easy\n" + "M: Medium\n" + "H: Hard\n"),
-    pos(width() - width() + 20, height() / 2),
+  add([
+    text("E: Easy\n" + "M: Medium\n" + "H: Hard\n", {size: 60}),
+    pos(width() - width() + width()/8, height() / 2),
     origin("left"),
     area(),
   ]);
@@ -200,9 +197,9 @@ scene("gameover", (score) => {
 		color(255, 0, 0),
 		origin("center"),
 	])
-  const endText = add([
-    text("Score: " + score + "\nHigh Score: " + highScore),
-    pos(width() - 20, height() / 2),
+   add([
+    text("Score: " + score + "\nHigh Score: " + highScore, { size: 60 }),
+    pos(width() - width()/8, height() / 2),
     origin("right"),
     area(),
   ]);
