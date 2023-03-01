@@ -11,6 +11,7 @@ loadSprite("endGame", "image/game_end_page(2).jpeg");
 
 // const music = play("bgm", { loop: true, volume: 0.5})
 
+const music = play("bgm", { loop: true, volume: 0.5 });
 let highScore = 0;
 let jump = 400;
 let PIPE_GAP = 200;
@@ -142,7 +143,7 @@ scene("game", () => {
     producePipes();
   });
 
-  action("pipe", (pipe) => {
+  onUpdate("pipe", (pipe) => {
     pipe.move(-160, 0);
 
     if (pipe.passed === false && pipe.pos.x < player.pos.x) {
@@ -159,6 +160,7 @@ scene("game", () => {
 
   player.action(() => {
     if (player.pos.y > height() + 30 || player.pos.y < -30) {
+      play("ohno");
       go("gameover", score);
     }
   });
@@ -205,10 +207,6 @@ scene("gameover", (score) => {
 
   keyPress("e", () => {
     go("easy");
-  });
-
-  keyPress("m", () => {
-    go("medium");
   });
 
   keyPress("h", () => {
