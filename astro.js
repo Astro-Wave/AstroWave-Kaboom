@@ -31,7 +31,7 @@ scene("medium", () => {
 
 scene("hard", () => {
   jump = 250;
-  PIPE_GAP = 100;
+  PIPE_GAP = 120;
   go("game");
 });
 
@@ -70,11 +70,13 @@ scene("start", () => {
   ]);
 
   const spaceJump = add([
-    text("Press Space to Jump", { size: 50 }),
+    text("Press Space to Jump", 
+	{size: 50}),
+	color(0, 0, 255),
     pos(width() / 2, height() / 1.4),
     origin("center"),
   ]);
-  // onKeyPress("space", () => go("game"))
+
   keyPress("e", () => {
     go("easy");
   });
@@ -94,9 +96,7 @@ scene("game", () => {
   add([sprite("endGame", { width: width(), height: height() })]);
   const scoreText = add([text(`Score: ${score}`, { size: 50 })]);
 
-  // add a game object to screen
   const player = add([
-    // list of components
     sprite("birdy"),
     scale(2),
     pos(200, 200),
@@ -131,6 +131,7 @@ scene("game", () => {
   });
 
   action("pipe", (pipe) => {
+
     pipe.move(-160, 0);
 
     if (pipe.passed === false && pipe.pos.x < player.pos.x) {
@@ -193,8 +194,14 @@ scene("gameover", (score) => {
     go("hard");
   });
 
+  	add([
+		text("Game Over", { size: 80 }),
+		pos(width() / 2, height() / 6),
+		color(255, 0, 0),
+		origin("center"),
+	])
   const endText = add([
-    text("Game Over\n" + "Score: " + score + "\nHigh Score: " + highScore),
+    text("Score: " + score + "\nHigh Score: " + highScore),
     pos(width() - 20, height() / 2),
     origin("right"),
     area(),
