@@ -139,10 +139,6 @@
 // 		origin("center"),
 // 	])
 
-//   add([
-//     sprite("background", {width: width(), height: height()})
-//   ]);
-
 // 	// display score
 // 	add([
 
@@ -160,49 +156,56 @@
 
 // go("game")
 
-/////////////////
+
 kaboom();
 
 // load assets
 loadSprite("birdy", "image/astronaut.png");
 loadSprite("bg", "image/Astro-Background.png");
 loadSprite("pipe", "image/newPipe.png");
-loadSound("ohno", "sound/ohno.mp3");
-loadSound("bgm", "sound/background-music.mp3");
-loadSound("whoosh", "sound/whoosh.mp3");
+// loadSound("wooosh", "sounds/wooosh.mp3");
 
 const music = play("bgm", { loop: true, volume: 0.5 });
 let highScore = 0;
+let jump = 400;
+let PIPE_GAP = 200;
+
+scene("easy", () => {
+  jump = 400;
+  PIPE_GAP = 200
+  go("game");
+});
+
+scene("medium", () => {
+  jump = 350;
+  PIPE_GAP = 150
+  go("game");
+});
+
+scene("hard", () => {
+  jump = 250;
+  PIPE_GAP = 100
+  go("game");
+});
 
 scene("start", () => {
-	const musicButton = add([
-		text("Music", { size: 20 }),
-		pos(width() - 120, 20),
-		area({ cursor: "pointer" }),
-	  ]);
-	  
-	  if (musicButton) {
-		musicButton.clicks(() => {
-		  if (!music.stopped()) {
-			music.pause();
-		  } else {
-			music.play();
-		  }
-		});
-	  }
-  add([text("Press space to start")]);
-  onKeyPress("space", () => go("game"));
-});
+	add([
+        text("Press space to start"),
+    ]);
+	onKeyPress("space", () => go("game"));
+})
+
 
 scene("game", () => {
   const PIPE_GAP = 200;
-
   let score = 0;
-  
-  add([sprite("bg", { width: width(), height: height() })]);
+
+  add([
+    sprite("bg", {width: width(), height: height()})
+  ]);
 
   const scoreText = add([
-    text(`Score:${score}`, {size: 50})
+    text(`Score: ${score}`, {size: 50})
   ]);
 
   // add a game object to screen
@@ -210,31 +213,30 @@ scene("game", () => {
     // list of components
     sprite("birdy"),
     scale(2),
-    pos(width()/5, height()/5),
+    pos(100, 100),
     area(),
     body(),
   ]);
 
-  function producePipes() {
-
+  function producePipes(){
     const offset = rand(-100, 100);
 
     add([
       sprite("pipe"),
-      pos(width(), height() / 2 + offset + PIPE_GAP / 2),
+      pos(width(), height()/2 + offset + PIPE_GAP/2),
       "pipe",
       area(),
-      { passed: false },
-      scale(0.3, 0.5),
+      {passed: false},
+	  scale(0.3, 0.5)
     ]);
 
     add([
-      sprite("pipe", { flipY: true }),
-      pos(width(), height() / 2 + offset - PIPE_GAP / 2),
+      sprite("pipe", {flipY: true}),
+      pos(width(), height()/2 + offset - PIPE_GAP/2),
       origin("botleft"),
       "pipe",
       area(),
-      scale(0.3, 0.5),
+	  scale(0.3, 0.5)
     ]);
   }
 
@@ -253,7 +255,6 @@ scene("game", () => {
   });
 
   player.collides("pipe", () => {
-    play("ohno");
     go("gameover", score);
   });
 
@@ -264,45 +265,29 @@ scene("game", () => {
     }
   });
 
-  onKeyPress("space", () => {
-    play("whoosh");
+  keyPress("space", () => {
+    // play("wooosh");
     player.jump(400);
   });
 });
 
 scene("gameover", (score) => {
-	const musicButton = add([
-		text("Music", { size: 20 }),
-		pos(width() - 120, 20),
-		area({ cursor: "pointer" }),
-	  ]);
-	  
-	  if (musicButton) {
-		musicButton.clicks(() => {
-		  if (!music.stopped()) {
-			music.pause();
-		  } else {
-			music.play();
-		  }
-		});
-	  }
   if (score > highScore) {
     highScore = score;
   }
 
   add([
-    text("gameover!\n" + "score: " + score + "\nhigh score: " + highScore, {
-      size: 45,
-    }),
+    text(
+      "gameover!\n"
+      + "score: " + score
+      + "\nhigh score: " + highScore,
+      {size: 45}
+    )
   ]);
 
-  keyPress("space", () => {
-    go("game");
+  keyPress("h", () => {
+    go("hard");
   });
 });
 
-go("start");
-
-//////////////////
-
-
+go("start"); 
