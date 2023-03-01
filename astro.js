@@ -72,7 +72,7 @@ scene("start", () => {
   const spaceJump = add([
     text("Press Space to Jump", 
 	{size: 50}),
-	color(0, 0, 255),
+	color(59,153,229),
     pos(width() / 2, height() / 1.4),
     origin("center"),
   ]);
