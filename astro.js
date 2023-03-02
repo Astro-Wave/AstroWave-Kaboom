@@ -5,11 +5,13 @@ loadSprite("bg", "image/Astro-Background.png");
 loadSprite("pipe", "image/newPipe.png");
 loadSprite("endGame", "image/game_end_page(2).jpeg");
 loadSound("wooosh", "sound/wooosh.mp3");
-loadSound("bgm", "sound/background-music.mp3");
+loadSound("bgm", "sound/background-music.mp3", () => {
+  const music = play("bgm", { loop: true, volume: 0.5 });
+});
 loadSound("cry", "sound/cry.mp3");
 
 const music = play("bgm", { loop: true, volume: 0.5 });
-
+console.log(music);
 let highScore = 0;
 let jump = 400;
 let pipeGap = 200;
@@ -60,29 +62,30 @@ scene("start", () => {
   ]);
 
   add([
-    text("Press E for Easy\n" + "Press M for Medium\n" + "Press H for Hard\n", { size: 50 }),
+    text("Press 1 for Easy\n" + "Press 2 for Medium\n" + "Press 3 for Hard\n", {
+      size: 50,
+    }),
     pos(width() / 2, height() / 1.9),
     origin("center"),
     area(),
   ]);
 
   add([
-    text("Press Space to Jump", 
-	{size: 50}),
-	color(59,153,229),
+    text("Press Space to Jump", { size: 50 }),
+    color(59, 153, 229),
     pos(width() / 2, height() / 1.4),
     origin("center"),
   ]);
 
-  keyPress("e", () => {
+  keyPress("1", () => {
     go("easy");
   });
 
-  keyPress("m", () => {
+  keyPress("2", () => {
     go("medium");
   });
 
-  keyPress("h", () => {
+  keyPress("3", () => {
     go("hard");
   });
 });
@@ -128,7 +131,6 @@ scene("game", () => {
   });
 
   action("pipe", (pipe) => {
-
     pipe.move(-160, 0);
 
     if (pipe.passed === false && pipe.pos.x < player.pos.x) {
@@ -167,8 +169,8 @@ scene("gameover", (score) => {
   ]);
 
   add([
-    text("E: Easy\n" + "M: Medium\n" + "H: Hard\n", {size: 60}),
-    pos(width() - width() + width()/8, height() / 2),
+    text("1:Easy\n" + "2:Medium\n" + "3:Hard\n", { size: 60 }),
+    pos(width() - width() + width() / 8, height() / 2),
     origin("left"),
     area(),
   ]);
@@ -179,27 +181,27 @@ scene("gameover", (score) => {
     highScore = score;
   }
 
-  keyPress("e", () => {
+  keyPress("1", () => {
     go("easy");
   });
 
-  keyPress("m", () => {
+  keyPress("2", () => {
     go("medium");
   });
 
-  keyPress("h", () => {
+  keyPress("3", () => {
     go("hard");
   });
 
-  	add([
-		text("Game Over", { size: 80 }),
-		pos(width() / 2, height() / 6),
-		color(255, 0, 0),
-		origin("center"),
-	])
-   add([
-    text("Score: " + score + "\nHigh Score: " + highScore, { size: 60 }),
-    pos(width() - width()/8, height() / 2),
+  add([
+    text("Game Over", { size: 80 }),
+    pos(width() / 2, height() / 6),
+    color(255, 0, 0),
+    origin("center"),
+  ]);
+  add([
+    text("Score:" + score + "\nHigh Score:" + highScore, { size: 60 }),
+    pos(width() - width() / 8, height() / 2),
     origin("right"),
     area(),
   ]);
